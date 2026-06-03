@@ -2,6 +2,10 @@
 
 This repository is a 2-day backend masterclass project for 4th-year B.Tech students. The project grows from plain JavaScript and Node's built-in HTTP server into a production-style Express, MongoDB, JWT, and bcrypt API for managing Tasks owned by Users.
 
+## What this checkpoint adds
+
+This `start` branch contains the project skeleton, setup files, empty final-architecture folders, and a hello-world Node entry point. There is no feature code yet.
+
 ## Prerequisites
 
 - Node.js 20 LTS or newer
@@ -23,6 +27,27 @@ npm start
 ```
 
 The `start` branch runs a hello-world server so students can confirm Node is working before the masterclass begins.
+
+## How to run it
+
+```bash
+npm install
+npm start
+```
+
+## What to test
+
+You should see a hello-world message in the terminal. There are no API endpoints in this checkpoint.
+
+## Student Exercise
+
+No coding exercise in this branch. The goal is to confirm setup.
+
+## Interview angle
+
+Read `INTERVIEW.md` and focus on: why do we use `.env.example` instead of committing `.env`?
+
+Behind? Run `git checkout start` to sync.
 
 ## Branch Map
 
