@@ -12,7 +12,6 @@ const loadTodo = async () => {
     const data = await response.json();
     console.log(data);
   } catch (error) {
-    // 👉 KEY: network calls can fail, so always teach students to handle errors.
     console.error("Fetch failed:", error.message);
   }
 };
