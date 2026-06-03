@@ -1,7 +1,7 @@
 {
   "name": "backend-masterclass-tasks-api",
   "version": "1.0.0",
-  "description": "Teaching repository for a Node.js, Express, MongoDB, JWT, and bcrypt backend masterclass.",
+  "description": "Teaching repository for a Node.js, Express, MongoDB, JWT, and Node crypto backend masterclass.",
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
@@ -9,7 +9,6 @@
     "js:refresher": "node examples/js-refresher/run-all.js"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
