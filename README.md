@@ -56,6 +56,8 @@ curl http://localhost:3000/api/admin/users -H "Authorization: Bearer <adminToken
 
 To test the admin route, update one user document in MongoDB so `role` is `"admin"`, then log in again to get a token with the admin role.
 
+You can also import `postman.json` into Postman. The collection is ordered for classroom demos and automatically stores `token`, `adminToken`, and `taskId` as collection variables.
+
 ## Student Exercise
 
 No new exercise in this branch. Use this checkpoint as the complete reference solution.
@@ -86,4 +88,4 @@ Behind? Run `git checkout checkpoint-06-secured` to sync.
 
 ## Postman / Thunder Client
 
-No generated collection is required. Every checkpoint README includes copy-pasteable request examples that can be used in Postman, Thunder Client, or curl.
+Import `postman.json` for the final secured API demo. Every checkpoint README also includes copy-pasteable request examples that can be used in Postman, Thunder Client, or curl.
