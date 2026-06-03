@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This `start` branch contains the project skeleton, setup files, empty final-architecture folders, and a hello-world Node entry point. There is no feature code yet.
+This checkpoint adds standalone JavaScript refresher scripts for concepts students need before Express and MongoDB: block scope, promises, async/await, fetch, and try/catch.
 
 ## Prerequisites
 
@@ -33,21 +33,25 @@ The `start` branch runs a hello-world server so students can confirm Node is wor
 ```bash
 npm install
 npm start
+node examples/js-refresher/01-let-const-scope.js
+node examples/js-refresher/02-promises.js
+node examples/js-refresher/03-async-await.js
+node examples/js-refresher/04-fetch-try-catch.js
 ```
 
 ## What to test
 
-You should see a hello-world message in the terminal. There are no API endpoints in this checkpoint.
+Run each script and read the console output. The final fetch example needs internet access because it calls a public sample API.
 
 ## Student Exercise
 
-No coding exercise in this branch. The goal is to confirm setup.
+No coding exercise in this branch. Ask students to predict each output before running the file.
 
 ## Interview angle
 
-Read `INTERVIEW.md` and focus on: why do we use `.env.example` instead of committing `.env`?
+Read `INTERVIEW.md` and focus on: why is Node able to handle concurrency if JavaScript runs on one main thread?
 
-Behind? Run `git checkout start` to sync.
+Behind? Run `git checkout checkpoint-01-js-refresher` to sync.
 
 ## Branch Map
 

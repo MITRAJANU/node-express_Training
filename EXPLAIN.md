@@ -1,22 +1,32 @@
-# Start Branch Instructor Notes
+# Checkpoint 01 Instructor Notes
 
 ## The analogy
 
-- A checkpoint branch is like a saved game slot: if someone gets stuck, they reload the exact class state.
-- `.env.example` is like a blank form: it tells students what values they must fill in locally.
+- A promise is like a restaurant token: you do not have the food yet, but the token represents a future result.
+- The event loop is like a receptionist who keeps taking new requests while waiting for other teams to finish background work.
+- try/catch is like a safety net around code that may fail.
 
 ## Build-up narration
 
-We begin with the smallest possible runnable Node project so setup issues are visible before real backend concepts arrive. The important teaching point is not the hello-world message; it is that everyone can run the same command and see the same result. The folder structure is empty on purpose because each later checkpoint gives those folders a reason to exist.
+Before writing a backend, we need confidence with the JavaScript features backend code uses every day. Scope explains why variables are visible in some places and not others. Promises and async/await explain why a server can wait for files, APIs, or databases without freezing. Error handling matters because real backend code fails in normal situations, not just exceptional ones.
+
+```text
+request starts
+  -> async function begins
+  -> awaits I/O promise
+  -> event loop handles other work
+  -> promise resolves
+  -> function continues
+```
 
 ## If a student asks...
 
-- Why are the folders empty? They preview the final architecture without adding complexity yet.
-- Why not write all code in one file? We start small, then split responsibilities when the app needs it.
-- Why ES modules? Modern Node supports `import` and `export`, and most current backend code uses them.
+- Is `await` slower than `.then()`? No; it is mostly syntax over promises.
+- Can every function use `await`? Only functions marked `async`, or top-level code in ES modules.
+- Why does fetch need `response.ok`? HTTP errors like 404 still produce a response object; they do not automatically throw.
 
 ## Common student mistakes
 
-- Forgetting to run `npm install`: ask them to check whether `node_modules/` exists.
-- Creating `.env` with a wrong variable name: compare it with `.env.example`.
-- Running from the wrong folder: confirm `package.json` is in the current directory.
+- Putting `await` inside a non-async function: add `async` to the nearest function.
+- Forgetting `.catch()` on promise chains: show how rejections need a handler.
+- Saying `const` means deeply frozen: change an object property live to demonstrate the difference.
