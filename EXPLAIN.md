@@ -1,34 +1,28 @@
-# Checkpoint 04 Instructor Notes
+# Checkpoint 05 Instructor Notes
 
 ## The analogy
 
-- A MongoDB collection is like a folder of similar forms.
-- A Mongoose schema is like the form template that says which fields are allowed.
-- An index is like the index at the back of a textbook: faster lookup, extra pages to maintain.
+- bcrypt hashing is like putting a password through a one-way shredder that still lets us compare later.
+- A JWT is like a tamper-proof event wristband: it proves it was issued by the server, but the printed text is still visible.
+- Registration is creating an identity; login is proving control of that identity.
 
 ## Build-up narration
 
-The API behavior stays almost the same, but the storage changes completely. That is the point of separation of concerns: routes barely care whether data comes from memory or MongoDB. The controller now awaits database calls, so async error handling becomes important. Mongoose gives us validation and relationships, but it does not remove the need to think about data modeling.
+Authentication is split into two moments. During registration, we never store the raw password; we hash it with bcrypt and save the hash. During login, we compare the submitted password against that hash. If the password is correct, we sign a JWT so the client can prove identity on later requests.
 
 ```text
-client
-  -> route
-  -> validation middleware
-  -> async controller
-  -> Mongoose model
-  -> MongoDB
-  -> controller formats success
-  -> errorHandler formats failure
+register -> validate -> bcrypt.hash -> save user
+login    -> find user -> bcrypt.compare -> jwt.sign -> return token
 ```
 
 ## If a student asks...
 
-- Why still validate in Express if Mongoose validates? Express catches bad requests before database work starts.
-- Why not embed owner details in Task? User data can change independently, so referencing avoids stale copies.
-- Why does Mongo need a connection string? The app must know which database server and database name to use.
+- Why not store the password? If the database leaks, raw passwords would leak too.
+- Why not include email only in the JWT? User id is stable and efficient for database lookup.
+- Can the frontend read the token? Yes, so do not put secrets in the payload.
 
 ## Common student mistakes
 
-- Starting the app without MongoDB running: check `MONGO_URI` and database availability.
-- Using a non-ObjectId id in URLs: validation returns 400 before Mongoose queries.
-- Forgetting `await`: the controller returns a promise instead of actual data.
+- Returning the password hash in responses: use a safe user object.
+- Forgetting `.select("+password")`: login cannot compare because password is excluded by default.
+- Using 400 for duplicate email: teach 409 because uniqueness conflict is the issue.

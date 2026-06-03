@@ -20,6 +20,11 @@ export const errorHandler = (err, req, res, next) => {
     message = Object.values(err.errors).map((error) => error.message).join(", ");
   }
 
+  if (err.code === 11000) {
+    statusCode = 409;
+    message = "Duplicate value already exists";
+  }
+
   // Centralized error handling means controllers do not repeat response formatting.
   res.status(statusCode).json({
     success: false,

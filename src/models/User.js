@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-// Model layer: this lightweight User model exists so Task.owner can reference it.
-// Authentication fields are added in checkpoint 05.
+// Model layer: User stores identity data; auth logic stays in controllers.
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -15,9 +14,22 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       required: true,
       unique: true
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+      select: false
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user"
     }
   },
   { timestamps: true }
 );
+
+userSchema.index({ email: 1 }, { unique: true });
 
 export const User = mongoose.model("User", userSchema);

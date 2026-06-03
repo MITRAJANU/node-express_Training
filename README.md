@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This checkpoint replaces in-memory tasks with MongoDB persistence through Mongoose. It introduces schemas, database validation, indexes, async controllers, and owner population.
+This checkpoint adds authentication. Students register users with bcrypt-hashed passwords and log in to receive a signed JWT.
 
 ## Prerequisites
 
@@ -45,6 +45,8 @@ npm start
 
 ```bash
 curl http://localhost:3000/health
+curl -X POST http://localhost:3000/api/auth/register -H "Content-Type: application/json" -d "{\"name\":\"Student One\",\"email\":\"student@example.com\",\"password\":\"Password123\"}"
+curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" -d "{\"email\":\"student@example.com\",\"password\":\"Password123\"}"
 curl http://localhost:3000/api/tasks
 curl -X POST http://localhost:3000/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice MongoDB\",\"description\":\"Persist tasks\"}"
 curl http://localhost:3000/api/tasks/<taskId>
@@ -54,13 +56,13 @@ curl -X DELETE http://localhost:3000/api/tasks/<taskId>
 
 ## Student Exercise
 
-No new exercise in this branch. Use the time to inspect documents in MongoDB Compass or Atlas.
+No new exercise in this branch. Ask students to inspect the saved user document and confirm the raw password is not stored.
 
 ## Interview angle
 
-Read `INTERVIEW.md` and focus on: what does an index do, and what does it cost?
+Read `INTERVIEW.md` and focus on: why hash passwords instead of encrypting them?
 
-Behind? Run `git checkout checkpoint-04-mongo-crud` to sync.
+Behind? Run `git checkout checkpoint-05-auth` to sync.
 
 ## Branch Map
 

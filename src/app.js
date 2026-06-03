@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import authRoutes from "./routes/authRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import { logger } from "./middleware/logger.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
@@ -17,6 +18,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/tasks", taskRoutes);
+app.use("/api/auth", authRoutes);
 
 // 👉 KEY: Centralized error handling must be registered after routes.
 app.use(notFound);
