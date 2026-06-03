@@ -10,7 +10,7 @@ if (true) {
   console.log(`${courseName}: Day ${day} starts with ${topic}`);
 }
 
-// Uncomment this line during class to show the ReferenceError:
+// Uncomment this line to show the ReferenceError:
 // console.log(topic);
 
 const student = {
