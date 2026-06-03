@@ -7,7 +7,8 @@ import { ApiError } from "../utils/ApiError.js";
 const validStatuses = ["todo", "in-progress", "done"];
 
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find()
+  const filter = req.user.role === "admin" ? {} : { owner: req.user._id };
+  const tasks = await Task.find(filter)
     .sort({ createdAt: -1 })
     .populate("owner", "name email");
 
@@ -22,16 +23,24 @@ export const getTaskById = async (req, res, next) => {
     return;
   }
 
+  const isOwner = task.owner?._id.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+
+  if (!isOwner && !isAdmin) {
+    next(new ApiError(403, "You can only view your own tasks"));
+    return;
+  }
+
   sendSuccess(res, 200, task, "Task fetched successfully");
 };
 
 export const createTask = async (req, res) => {
   const task = await Task.create({
-    id: String(Date.now()),
     title: req.body.title,
     description: req.body.description || "",
     status: req.body.status || "todo",
-    owner: req.body.owner
+    // 👉 KEY: The server takes ownership from the verified token, not from client input.
+    owner: req.user._id
   });
 
   // 👉 KEY: POST returns 201 because a new resource was created.
@@ -39,12 +48,7 @@ export const createTask = async (req, res) => {
 };
 
 export const updateTask = async (req, res, next) => {
-  const task = await Task.findById(req.params.id);
-
-  if (!task) {
-    next(new ApiError(404, "Task not found"));
-    return;
-  }
+  const task = req.task;
 
   task.title = req.body.title;
   task.description = req.body.description || "";
@@ -55,12 +59,7 @@ export const updateTask = async (req, res, next) => {
 };
 
 export const deleteTask = async (req, res, next) => {
-  const task = await Task.findById(req.params.id);
-
-  if (!task) {
-    next(new ApiError(404, "Task not found"));
-    return;
-  }
+  const task = req.task;
 
   await task.deleteOne();
   res.status(204).send();

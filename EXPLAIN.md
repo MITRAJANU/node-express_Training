@@ -1,28 +1,33 @@
-# Checkpoint 05 Instructor Notes
+# Checkpoint 06 Instructor Notes
 
 ## The analogy
 
-- bcrypt hashing is like putting a password through a one-way shredder that still lets us compare later.
-- A JWT is like a tamper-proof event wristband: it proves it was issued by the server, but the printed text is still visible.
-- Registration is creating an identity; login is proving control of that identity.
+- Authentication is like checking an ID card.
+- Authorization is like checking whether that ID card has access to a room.
+- Ownership is like checking whether the laptop being collected actually belongs to that student.
 
 ## Build-up narration
 
-Authentication is split into two moments. During registration, we never store the raw password; we hash it with bcrypt and save the hash. During login, we compare the submitted password against that hash. If the password is correct, we sign a JWT so the client can prove identity on later requests.
+This is the final production-style structure. The token proves identity, the role decides broad permissions, and the ownership check protects individual resources. The most important line to explain is that task owner comes from `req.user`, not the request body. That is the difference between a demo API and an API that resists obvious abuse.
 
 ```text
-register -> validate -> bcrypt.hash -> save user
-login    -> find user -> bcrypt.compare -> jwt.sign -> return token
+register -> login -> receive JWT
+protected request
+  -> Authorization: Bearer token
+  -> authenticate verifies JWT
+  -> req.user is attached
+  -> route/controller checks role or ownership
+  -> DB operation
 ```
 
 ## If a student asks...
 
-- Why not store the password? If the database leaks, raw passwords would leak too.
-- Why not include email only in the JWT? User id is stable and efficient for database lookup.
-- Can the frontend read the token? Yes, so do not put secrets in the payload.
+- Why not put auth in every controller? Middleware keeps cross-cutting security logic reusable.
+- Why can admin update any task? That is an explicit business rule implemented in the ownership middleware.
+- Why does missing token return 401? The server cannot identify the caller.
 
 ## Common student mistakes
 
-- Returning the password hash in responses: use a safe user object.
-- Forgetting `.select("+password")`: login cannot compare because password is excluded by default.
-- Using 400 for duplicate email: teach 409 because uniqueness conflict is the issue.
+- Sending token without `Bearer ` prefix: the middleware rejects it.
+- Confusing user id with task id: show the route param versus `req.user._id`.
+- Forgetting to protect routes before handlers: middleware order controls security.

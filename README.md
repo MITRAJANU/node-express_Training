@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This checkpoint adds authentication. Students register users with bcrypt-hashed passwords and log in to receive a signed JWT.
+This final checkpoint secures the API. Task routes require JWT authentication, users can update/delete only their own tasks, and admins can access an admin-only users route.
 
 ## Prerequisites
 
@@ -47,22 +47,24 @@ npm start
 curl http://localhost:3000/health
 curl -X POST http://localhost:3000/api/auth/register -H "Content-Type: application/json" -d "{\"name\":\"Student One\",\"email\":\"student@example.com\",\"password\":\"Password123\"}"
 curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" -d "{\"email\":\"student@example.com\",\"password\":\"Password123\"}"
-curl http://localhost:3000/api/tasks
-curl -X POST http://localhost:3000/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice MongoDB\",\"description\":\"Persist tasks\"}"
-curl http://localhost:3000/api/tasks/<taskId>
-curl -X PUT http://localhost:3000/api/tasks/<taskId> -H "Content-Type: application/json" -d "{\"title\":\"Updated Mongo task\",\"status\":\"done\"}"
-curl -X DELETE http://localhost:3000/api/tasks/<taskId>
+curl http://localhost:3000/api/tasks -H "Authorization: Bearer <token>"
+curl -X POST http://localhost:3000/api/tasks -H "Authorization: Bearer <token>" -H "Content-Type: application/json" -d "{\"title\":\"Practice secured routes\",\"description\":\"Use JWT\"}"
+curl -X PUT http://localhost:3000/api/tasks/<taskId> -H "Authorization: Bearer <token>" -H "Content-Type: application/json" -d "{\"title\":\"Updated secure task\",\"status\":\"done\"}"
+curl -X DELETE http://localhost:3000/api/tasks/<taskId> -H "Authorization: Bearer <token>"
+curl http://localhost:3000/api/admin/users -H "Authorization: Bearer <adminToken>"
 ```
+
+To test the admin route, update one user document in MongoDB so `role` is `"admin"`, then log in again to get a token with the admin role.
 
 ## Student Exercise
 
-No new exercise in this branch. Ask students to inspect the saved user document and confirm the raw password is not stored.
+No new exercise in this branch. Use this checkpoint as the complete reference solution.
 
 ## Interview angle
 
-Read `INTERVIEW.md` and focus on: why hash passwords instead of encrypting them?
+Read `INTERVIEW.md` and focus on: authentication vs authorization vs ownership.
 
-Behind? Run `git checkout checkpoint-05-auth` to sync.
+Behind? Run `git checkout checkpoint-06-secured` to sync.
 
 ## Branch Map
 

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import { logger } from "./middleware/logger.js";
@@ -19,6 +20,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/tasks", taskRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 // 👉 KEY: Centralized error handling must be registered after routes.
 app.use(notFound);

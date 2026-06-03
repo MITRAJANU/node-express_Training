@@ -1,38 +1,38 @@
-# Checkpoint 05 Interview Prep
+# Checkpoint 06 Interview Prep
 
 ## Concept-in-one-line
 
 - Authentication: verifying who the user is.
-- bcrypt: a password hashing library that adds salt and computational cost.
-- Hashing: a one-way transformation used to verify passwords without storing the original.
-- Salt: random data added before hashing so identical passwords do not produce identical hashes.
-- JWT: a signed token containing claims that the server can verify.
-- Claims: values inside a JWT payload, such as user id and role.
-- 409 Conflict: the status code for duplicate email registration.
+- Authorization: checking what an authenticated user is allowed to do.
+- RBAC: role-based access control, where permissions are based on roles like user or admin.
+- Ownership check: resource-level authorization that verifies the resource belongs to the user.
+- Bearer token: an access token sent in the Authorization header.
+- 401 Unauthorized: the user is not authenticated.
+- 403 Forbidden: the user is authenticated but not allowed.
 
 ## Likely Interview Questions
 
-1. Why hash passwords instead of encrypting them?
-   Encryption is reversible with a key; hashing is one-way, so even the server should not be able to recover the password.
-2. What is a salt?
-   A random value added before hashing so two users with the same password get different hashes.
-3. What is inside a JWT?
-   A header, payload, and signature. The payload contains claims and is readable.
-4. Is a JWT encrypted?
-   No, a normal JWT is signed, not encrypted. Clients can base64-decode and read the payload.
-5. Why return 401 for bad login?
-   The client has not proven a valid identity.
-6. Why return 409 for duplicate email?
-   The request conflicts with an existing unique resource.
-7. Where should JWTs be stored?
-   HTTP-only cookies reduce script access; localStorage is simpler but more exposed to XSS. The choice depends on app needs.
+1. Authentication vs authorization?
+   Authentication asks "who are you"; authorization asks "what are you allowed to do".
+2. What does RBAC mean?
+   Role-based access control grants permissions based on user roles such as admin or user.
+3. Why do we need ownership checks if we already have roles?
+   A normal user may be allowed to update tasks, but only tasks they own.
+4. What is the difference between 401 and 403?
+   401 means not authenticated; 403 means authenticated but not permitted.
+5. Why verify JWT instead of decoding it?
+   Decode only reads payload; verify checks the signature and expiration.
+6. Why should the server set task owner from `req.user`?
+   Client-supplied owner ids can be forged, but `req.user` comes from a verified token.
+7. Can admins bypass ownership?
+   In this API yes, because admin role is explicitly allowed by the authorization rule.
 
 ## Gotcha Traps
 
-- "JWT is encrypted" is wrong. It is signed; the payload is readable unless a separate encryption format is used.
-- "Hashing and encryption are the same" is wrong. Hashing is one-way, encryption is reversible.
-- "Store user password in the JWT" is dangerous. Never put secrets in a token payload.
+- "Logged in means allowed to do everything" is wrong. Authentication is not authorization.
+- "403 means not logged in" is wrong. 403 means logged in but blocked.
+- "Trust owner from request body" is unsafe. Ownership must come from the verified user.
 
 ## Whiteboard Question
 
-Design the register/login flow and explain where hashing and token signing happen.
+Trace a protected update request from Bearer token to ownership check to MongoDB update.
