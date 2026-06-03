@@ -3,7 +3,7 @@
 ## Concept-in-one-line
 
 - Authentication: verifying who the user is.
-- bcrypt: a password hashing library that adds salt and computational cost.
+- `crypto.scrypt`: Node's built-in password-based key derivation function used here for password hashing.
 - Hashing: a one-way transformation used to verify passwords without storing the original.
 - Salt: random data added before hashing so identical passwords do not produce identical hashes.
 - JWT: a signed token containing claims that the server can verify.
@@ -26,6 +26,8 @@
    The request conflicts with an existing unique resource.
 7. Where should JWTs be stored?
    HTTP-only cookies reduce script access; localStorage is simpler but more exposed to XSS. The choice depends on app needs.
+8. Why use `crypto.scrypt` here?
+   It is built into Node, intentionally expensive, and suitable for deriving password hashes with a unique salt.
 
 ## Gotcha Traps
 

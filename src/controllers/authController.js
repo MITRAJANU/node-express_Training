@@ -1,8 +1,8 @@
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
 import { env } from "../config/env.js";
 import { ApiError } from "../utils/ApiError.js";
+import { hashPassword, verifyPassword } from "../utils/password.js";
 import { sendSuccess } from "../utils/sendResponse.js";
 
 // Controller layer: authentication logic lives here, not in routes or models.
@@ -35,7 +35,7 @@ export const register = async (req, res, next) => {
     return;
   }
 
-  const passwordHash = await bcrypt.hash(req.body.password, 12);
+  const passwordHash = await hashPassword(req.body.password);
 
   const user = await User.create({
     name: req.body.name,
@@ -54,7 +54,7 @@ export const login = async (req, res, next) => {
     return;
   }
 
-  const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
+  const isPasswordCorrect = await verifyPassword(req.body.password, user.password);
 
   if (!isPasswordCorrect) {
     next(new ApiError(401, "Invalid email or password"));
