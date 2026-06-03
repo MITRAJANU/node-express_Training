@@ -5,10 +5,12 @@
 - A promise is like a restaurant token: you do not have the food yet, but the token represents a future result.
 - The event loop is like a receptionist who keeps taking new requests while waiting for other teams to finish background work.
 - try/catch is like a safety net around code that may fail.
+- Spread syntax is like photocopying a form before editing it, so the original stays unchanged.
+- Modules are like labeled toolboxes: each file exports tools, and other files import only what they need.
 
 ## Build-up narration
 
-Before writing a backend, we need confidence with the JavaScript features backend code uses every day. Scope explains why variables are visible in some places and not others. Promises and async/await explain why a server can wait for files, APIs, or databases without freezing. Error handling matters because real backend code fails in normal situations, not just exceptional ones.
+Before writing a backend, we need confidence with the JavaScript features backend and React code use every day. Scope explains why variables are visible in some places and not others. Array and object patterns explain how we filter tasks, shape responses, and update React state. Promises and async/await explain why a server can wait for APIs or databases without freezing. Error handling matters because real code fails in normal situations, not just exceptional ones.
 
 ```text
 request starts

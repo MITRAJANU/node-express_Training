@@ -1,4 +1,6 @@
 // JavaScript refresher: promises represent work that finishes in the future.
+// Node/Express connection: database calls return promises.
+// React connection: API calls return promises.
 
 const findStudentById = (id) => {
   return new Promise((resolve, reject) => {
@@ -13,7 +15,7 @@ const findStudentById = (id) => {
   });
 };
 
-// 👉 KEY: .then handles success and .catch handles failure.
+// KEY: .then handles success and .catch handles failure.
 findStudentById(101)
   .then((student) => {
     console.log("Found student:", student);

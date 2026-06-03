@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This checkpoint adds standalone JavaScript refresher scripts for concepts students need before Express and MongoDB: block scope, promises, async/await, fetch, and try/catch.
+This checkpoint adds standalone JavaScript refresher scripts for concepts students need before Node, Express, MongoDB, and React: scope, functions, arrays, objects, modules, promises, async/await, JSON, error handling, immutability, and Express-style request patterns.
 
 ## Prerequisites
 
@@ -33,15 +33,12 @@ The `start` branch runs a hello-world server so students can confirm Node is wor
 ```bash
 npm install
 npm start
-node examples/js-refresher/01-let-const-scope.js
-node examples/js-refresher/02-promises.js
-node examples/js-refresher/03-async-await.js
-node examples/js-refresher/04-fetch-try-catch.js
+npm run js:refresher
 ```
 
 ## What to test
 
-Run each script and read the console output. The final fetch example needs internet access because it calls a public sample API.
+Run `npm run js:refresher` and read the console output section by section. The fetch example uses a local `data:` URL, so it does not need internet access.
 
 ## Student Exercise
 
