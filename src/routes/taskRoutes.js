@@ -9,27 +9,29 @@ import {
   updateTask
 } from "../controllers/taskController.js";
 import { validate } from "../middleware/validate.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 // Route layer: routes map HTTP methods and URLs to middleware plus controllers.
 const router = Router();
 
 const idParamRules = [
-  param("id").notEmpty().withMessage("Task id is required")
+  param("id").isMongoId().withMessage("Task id must be a valid MongoDB ObjectId")
 ];
 
 const taskBodyRules = [
-  body("title").trim().notEmpty().withMessage("Title is required"),
+  body("title").trim().isLength({ min: 3 }).withMessage("Title must be at least 3 characters"),
   body("description").optional().isString().withMessage("Description must be text"),
   body("status")
     .optional()
     .custom(isValidStatus)
-    .withMessage("Status must be todo, in-progress, or done")
+    .withMessage("Status must be todo, in-progress, or done"),
+  body("owner").optional().isMongoId().withMessage("Owner must be a valid MongoDB ObjectId")
 ];
 
-router.get("/", getTasks);
-router.get("/:id", idParamRules, validate, getTaskById);
-router.post("/", taskBodyRules, validate, createTask);
-router.put("/:id", [...idParamRules, ...taskBodyRules], validate, updateTask);
-router.delete("/:id", idParamRules, validate, deleteTask);
+router.get("/", asyncHandler(getTasks));
+router.get("/:id", idParamRules, validate, asyncHandler(getTaskById));
+router.post("/", taskBodyRules, validate, asyncHandler(createTask));
+router.put("/:id", [...idParamRules, ...taskBodyRules], validate, asyncHandler(updateTask));
+router.delete("/:id", idParamRules, validate, asyncHandler(deleteTask));
 
 export default router;

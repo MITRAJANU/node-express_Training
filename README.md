@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This checkpoint adds the main Express app with in-memory Task CRUD. It introduces separation of concerns, middleware, input validation, and centralized error handling.
+This checkpoint replaces in-memory tasks with MongoDB persistence through Mongoose. It introduces schemas, database validation, indexes, async controllers, and owner population.
 
 ## Prerequisites
 
@@ -46,26 +46,21 @@ npm start
 ```bash
 curl http://localhost:3000/health
 curl http://localhost:3000/api/tasks
-curl -X POST http://localhost:3000/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice Express\",\"description\":\"Build CRUD routes\"}"
-curl -X PUT http://localhost:3000/api/tasks/1 -H "Content-Type: application/json" -d "{\"title\":\"Updated task\",\"status\":\"done\"}"
-curl -X DELETE http://localhost:3000/api/tasks/1
+curl -X POST http://localhost:3000/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice MongoDB\",\"description\":\"Persist tasks\"}"
+curl http://localhost:3000/api/tasks/<taskId>
+curl -X PUT http://localhost:3000/api/tasks/<taskId> -H "Content-Type: application/json" -d "{\"title\":\"Updated Mongo task\",\"status\":\"done\"}"
+curl -X DELETE http://localhost:3000/api/tasks/<taskId>
 ```
 
 ## Student Exercise
 
-Task: after the instructor demos GET and POST, students implement PUT and DELETE.
-
-Time-box: 25 minutes.
-
-Done when PUT returns 200 with updated task data, DELETE returns 204, and a follow-up GET for that id returns 404.
-
-Solution note: the working solution is already present in this branch so the instructor can demo the end state.
+No new exercise in this branch. Use the time to inspect documents in MongoDB Compass or Atlas.
 
 ## Interview angle
 
-Read `INTERVIEW.md` and focus on: what is middleware and what does `next()` do?
+Read `INTERVIEW.md` and focus on: what does an index do, and what does it cost?
 
-Behind? Run `git checkout checkpoint-03-express-crud` to sync.
+Behind? Run `git checkout checkpoint-04-mongo-crud` to sync.
 
 ## Branch Map
 

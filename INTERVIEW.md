@@ -1,37 +1,38 @@
-# Checkpoint 03 Interview Prep
+# Checkpoint 04 Interview Prep
 
 ## Concept-in-one-line
 
-- Express: a Node framework that simplifies routing, middleware, and HTTP response handling.
-- Middleware: a function that receives `req`, `res`, and `next`, and runs during the request pipeline.
-- Controller: the layer that holds request handling logic after routing is decided.
-- Centralized error handling: one error middleware formats failures for the whole API.
-- Input validation middleware: code that checks request data before business logic runs.
-- Separation of concerns: keeping routing, validation, logic, and response formatting in separate places.
+- MongoDB: a document database that stores JSON-like documents in collections.
+- Mongoose: an ODM that maps JavaScript objects to MongoDB documents and schemas.
+- Schema: a structure that defines fields, types, validation, and defaults for documents.
+- Index: a database data structure that speeds reads for selected fields.
+- Referencing: storing one document's id inside another document.
+- Populate: Mongoose's helper for replacing a referenced id with selected data from the related document.
+- asyncHandler: a wrapper that forwards async errors to Express error middleware.
 
 ## Likely Interview Questions
 
-1. What is middleware and what does `next()` do?
-   Middleware runs during the request pipeline; `next()` passes control to the next middleware or route handler.
-2. What happens if middleware forgets to call `next()`?
-   The request can hang because Express does not know to continue.
-3. Why keep routes thin?
-   Routes should describe the HTTP mapping, while controllers hold the request logic.
-4. Why use centralized error handling?
-   It gives consistent error responses and avoids repeating try/catch response code in every route.
-5. What status code should bad input return?
-   400 Bad Request because the client sent invalid data.
-6. PUT vs PATCH?
-   PUT usually replaces a resource or full update payload; PATCH applies a partial update.
-7. What does idempotent mean?
-   Repeating the same request produces the same final server state; GET, PUT, and DELETE are idempotent by design.
+1. SQL vs NoSQL: when would you pick each?
+   SQL fits strong relational consistency and complex joins; NoSQL fits flexible document shapes and simple horizontal scaling patterns.
+2. What does a Mongoose schema do?
+   It defines document structure, validation, defaults, indexes, and references at the application layer.
+3. Embedding vs referencing in MongoDB?
+   Embed data read together and owned together; reference data that is large, reused, or changes independently.
+4. What does an index do?
+   It speeds reads by maintaining a searchable structure, but it uses storage and slows writes because the index must be updated.
+5. What does `.populate()` do?
+   It replaces a referenced ObjectId with selected fields from the related document.
+6. Why use asyncHandler?
+   It avoids repetitive try/catch in each async controller and sends rejected promises to the central error handler.
+7. Why validate in both Express and Mongoose?
+   Express validation gives fast request feedback; Mongoose validation protects the database boundary.
 
 ## Gotcha Traps
 
-- "Middleware is only for authentication" is too narrow. Logging, parsing, validation, and errors are middleware too.
-- "Validation belongs inside the database model only" misses API concerns. Validate request shape before controller logic.
-- "DELETE must return JSON" is not required. 204 with no body is a valid successful delete response.
+- "MongoDB has no schema" is incomplete. MongoDB is flexible, but Mongoose can enforce schema rules in the app.
+- "Indexes always make apps faster" is wrong. They help reads but add write and storage cost.
+- "Populate is the same as a SQL join" is too simple. It is a Mongoose-level convenience that issues additional lookup work.
 
 ## Whiteboard Question
 
-Trace a POST `/api/tasks` request through Express JSON parsing, logger, validation, route, controller, and response.
+Design the Task document and explain why owner is referenced instead of copied into every task.

@@ -7,12 +7,23 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Something went wrong";
+
+  if (err.name === "CastError") {
+    statusCode = 400;
+    message = "Invalid id format";
+  }
+
+  if (err.name === "ValidationError") {
+    statusCode = 400;
+    message = Object.values(err.errors).map((error) => error.message).join(", ");
+  }
 
   // Centralized error handling means controllers do not repeat response formatting.
   res.status(statusCode).json({
     success: false,
     data: null,
-    message: err.message || "Something went wrong"
+    message
   });
 };

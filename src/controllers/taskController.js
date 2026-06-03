@@ -1,27 +1,21 @@
-import { ApiError } from "../utils/ApiError.js";
+import { Task } from "../models/Task.js";
 import { sendSuccess } from "../utils/sendResponse.js";
+import { ApiError } from "../utils/ApiError.js";
 
 // Controller layer: request business logic lives here, not in routes.
 
-const tasks = [
-  {
-    id: "1",
-    title: "Revise Express middleware",
-    description: "Understand req, res, and next",
-    status: "todo",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
-
 const validStatuses = ["todo", "in-progress", "done"];
 
-export const getTasks = (req, res) => {
+export const getTasks = async (req, res) => {
+  const tasks = await Task.find()
+    .sort({ createdAt: -1 })
+    .populate("owner", "name email");
+
   sendSuccess(res, 200, tasks, "Tasks fetched successfully");
 };
 
-export const getTaskById = (req, res, next) => {
-  const task = tasks.find((item) => item.id === req.params.id);
+export const getTaskById = async (req, res, next) => {
+  const task = await Task.findById(req.params.id).populate("owner", "name email");
 
   if (!task) {
     next(new ApiError(404, "Task not found"));
@@ -31,25 +25,21 @@ export const getTaskById = (req, res, next) => {
   sendSuccess(res, 200, task, "Task fetched successfully");
 };
 
-export const createTask = (req, res) => {
-  const now = new Date().toISOString();
-  const task = {
+export const createTask = async (req, res) => {
+  const task = await Task.create({
     id: String(Date.now()),
     title: req.body.title,
     description: req.body.description || "",
     status: req.body.status || "todo",
-    createdAt: now,
-    updatedAt: now
-  };
-
-  tasks.push(task);
+    owner: req.body.owner
+  });
 
   // 👉 KEY: POST returns 201 because a new resource was created.
   sendSuccess(res, 201, task, "Task created successfully");
 };
 
-export const updateTask = (req, res, next) => {
-  const task = tasks.find((item) => item.id === req.params.id);
+export const updateTask = async (req, res, next) => {
+  const task = await Task.findById(req.params.id);
 
   if (!task) {
     next(new ApiError(404, "Task not found"));
@@ -59,20 +49,20 @@ export const updateTask = (req, res, next) => {
   task.title = req.body.title;
   task.description = req.body.description || "";
   task.status = req.body.status || task.status;
-  task.updatedAt = new Date().toISOString();
+  await task.save();
 
   sendSuccess(res, 200, task, "Task updated successfully");
 };
 
-export const deleteTask = (req, res, next) => {
-  const index = tasks.findIndex((item) => item.id === req.params.id);
+export const deleteTask = async (req, res, next) => {
+  const task = await Task.findById(req.params.id);
 
-  if (index === -1) {
+  if (!task) {
     next(new ApiError(404, "Task not found"));
     return;
   }
 
-  tasks.splice(index, 1);
+  await task.deleteOne();
   res.status(204).send();
 };
 

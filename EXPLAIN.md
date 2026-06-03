@@ -1,34 +1,34 @@
-# Checkpoint 03 Instructor Notes
+# Checkpoint 04 Instructor Notes
 
 ## The analogy
 
-- Middleware is like airport security checkpoints: the request passes through each checkpoint before reaching the destination.
-- A controller is like the department that actually handles the work after reception sends the request there.
-- Centralized error handling is like one help desk for complaints instead of every department inventing its own process.
+- A MongoDB collection is like a folder of similar forms.
+- A Mongoose schema is like the form template that says which fields are allowed.
+- An index is like the index at the back of a textbook: faster lookup, extra pages to maintain.
 
 ## Build-up narration
 
-Now that students have seen raw HTTP, Express should feel like a cleaner way to write the same ideas. We introduce layers only because the app has enough behavior to need them. Routes decide where a request goes, validation checks the input, controllers do the work, and the error middleware formats failures. This is the first checkpoint that looks like professional backend structure.
+The API behavior stays almost the same, but the storage changes completely. That is the point of separation of concerns: routes barely care whether data comes from memory or MongoDB. The controller now awaits database calls, so async error handling becomes important. Mongoose gives us validation and relationships, but it does not remove the need to think about data modeling.
 
 ```text
 client
-  -> express.json()
-  -> logger
   -> route
-  -> validation
-  -> controller
-  -> JSON response
-  -> errorHandler if something fails
+  -> validation middleware
+  -> async controller
+  -> Mongoose model
+  -> MongoDB
+  -> controller formats success
+  -> errorHandler formats failure
 ```
 
 ## If a student asks...
 
-- Why add controllers now? CRUD logic is large enough that routes would become messy.
-- Why validate before the controller? The controller should work with trusted input.
-- Why have a custom error class? It lets code throw errors with meaningful HTTP status codes.
+- Why still validate in Express if Mongoose validates? Express catches bad requests before database work starts.
+- Why not embed owner details in Task? User data can change independently, so referencing avoids stale copies.
+- Why does Mongo need a connection string? The app must know which database server and database name to use.
 
 ## Common student mistakes
 
-- Calling `next()` after already sending a response: explain that one request should get one response.
-- Putting business logic in route files: move it into controllers.
-- Forgetting to register error middleware after routes: middleware order matters in Express.
+- Starting the app without MongoDB running: check `MONGO_URI` and database availability.
+- Using a non-ObjectId id in URLs: validation returns 400 before Mongoose queries.
+- Forgetting `await`: the controller returns a promise instead of actual data.
