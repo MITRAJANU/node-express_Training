@@ -1,32 +1,31 @@
-# Checkpoint 01 Instructor Notes
+# Checkpoint 02 Instructor Notes
 
 ## The analogy
 
-- A promise is like a restaurant token: you do not have the food yet, but the token represents a future result.
-- The event loop is like a receptionist who keeps taking new requests while waiting for other teams to finish background work.
-- try/catch is like a safety net around code that may fail.
+- A route is like a reception desk label: the method and path decide which desk handles the request.
+- Headers are like labels on a parcel: they describe how to read the content.
+- Status codes are like traffic signals for clients: they quickly say what happened.
 
 ## Build-up narration
 
-Before writing a backend, we need confidence with the JavaScript features backend code uses every day. Scope explains why variables are visible in some places and not others. Promises and async/await explain why a server can wait for files, APIs, or databases without freezing. Error handling matters because real backend code fails in normal situations, not just exceptional ones.
+This checkpoint shows that Express is not magic; it is a helpful layer over Node's HTTP capabilities. We manually check the method and URL so students understand routing at the lowest useful level. We manually collect the request body to show why body parsing middleware exists later. After this, Express will feel like a solution to visible repetition.
 
 ```text
-request starts
-  -> async function begins
-  -> awaits I/O promise
-  -> event loop handles other work
-  -> promise resolves
-  -> function continues
+client
+  -> HTTP request
+  -> method/url checks
+  -> optional body parsing
+  -> JSON response with status code
 ```
 
 ## If a student asks...
 
-- Is `await` slower than `.then()`? No; it is mostly syntax over promises.
-- Can every function use `await`? Only functions marked `async`, or top-level code in ES modules.
-- Why does fetch need `response.ok`? HTTP errors like 404 still produce a response object; they do not automatically throw.
+- Why not always use raw `http`? It becomes repetitive and harder to organize as APIs grow.
+- Why does the body arrive in chunks? HTTP data is streamed, so large bodies may not arrive all at once.
+- Why use 201 instead of 200? 201 specifically communicates that a resource was created.
 
 ## Common student mistakes
 
-- Putting `await` inside a non-async function: add `async` to the nearest function.
-- Forgetting `.catch()` on promise chains: show how rejections need a handler.
-- Saying `const` means deeply frozen: change an object property live to demonstrate the difference.
+- Forgetting `return` after sending a response: the function may keep running and try to respond again.
+- Sending invalid JSON in curl: validate the quotes and content type.
+- Using the wrong port: this example runs on `3001`, while later app code uses `3000`.

@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This checkpoint adds standalone JavaScript refresher scripts for concepts students need before Express and MongoDB: block scope, promises, async/await, fetch, and try/catch.
+This checkpoint adds a basic JSON API using Node's built-in `http` module. Students see manual routing, request body parsing, and JSON responses before Express simplifies those jobs.
 
 ## Prerequisites
 
@@ -37,21 +37,26 @@ node examples/js-refresher/01-let-const-scope.js
 node examples/js-refresher/02-promises.js
 node examples/js-refresher/03-async-await.js
 node examples/js-refresher/04-fetch-try-catch.js
+node examples/node-http-server/server.js
 ```
 
 ## What to test
 
-Run each script and read the console output. The final fetch example needs internet access because it calls a public sample API.
+```bash
+curl http://localhost:3001/health
+curl http://localhost:3001/api/tasks
+curl -X POST http://localhost:3001/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice HTTP\"}"
+```
 
 ## Student Exercise
 
-No coding exercise in this branch. Ask students to predict each output before running the file.
+No coding exercise in this branch. Ask students to trace how the server reaches each `if` block.
 
 ## Interview angle
 
-Read `INTERVIEW.md` and focus on: why is Node able to handle concurrency if JavaScript runs on one main thread?
+Read `INTERVIEW.md` and focus on: what does Express save us from writing manually?
 
-Behind? Run `git checkout checkpoint-01-js-refresher` to sync.
+Behind? Run `git checkout checkpoint-02-node-http` to sync.
 
 ## Branch Map
 
