@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "6e0f0a32-868b-4d01-b3d0-2f0b2d0f7a21",
     "name": "Backend Masterclass - Tasks API",
-    "description": "Structured Postman collection for demonstrating the Node.js, Express, MongoDB, JWT, and bcrypt Tasks API. Run requests top to bottom during class.",
+    "description": "Structured Postman collection for demonstrating the Node.js, Express, MongoDB, JWT, and Node crypto Tasks API. Run requests top to bottom during class.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

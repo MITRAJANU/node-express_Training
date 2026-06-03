@@ -1,6 +1,6 @@
 # Backend Masterclass: Tasks API
 
-This repository is a 2-day backend masterclass project for 4th-year B.Tech students. The project grows from plain JavaScript and Node's built-in HTTP server into a production-style Express, MongoDB, JWT, and bcrypt API for managing Tasks owned by Users.
+This repository is a 2-day backend masterclass project for 4th-year B.Tech students. The project grows from plain JavaScript and Node's built-in HTTP server into a production-style Express, MongoDB, JWT, and Node `crypto` API for managing Tasks owned by Users.
 
 ## What this checkpoint adds
 
@@ -77,7 +77,7 @@ Behind? Run `git checkout checkpoint-06-secured` to sync.
 | `checkpoint-02-node-http` | Basic JSON API using Node's built-in `http` module |
 | `checkpoint-03-express-crud` | Express in-memory Task CRUD, middleware, validation, centralized errors |
 | `checkpoint-04-mongo-crud` | MongoDB persistence with Mongoose models, validation, indexes, populate |
-| `checkpoint-05-auth` | User registration, bcrypt password hashing, JWT login |
+| `checkpoint-05-auth` | User registration, Node `crypto` password hashing, JWT login |
 | `checkpoint-06-secured` | JWT authentication, role authorization, admin route, ownership checks |
 
 ## Student Aids
