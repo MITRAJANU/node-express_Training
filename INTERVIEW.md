@@ -1,34 +1,37 @@
-# Checkpoint 02 Interview Prep
+# Checkpoint 03 Interview Prep
 
 ## Concept-in-one-line
 
-- HTTP server: a process that receives HTTP requests and sends HTTP responses.
-- Route: a method and path combination that maps a request to code.
-- JSON API: an API that sends and receives JSON data.
-- Request body: client-sent data, commonly used with POST and PUT.
-- Status code: a numeric signal that tells the client whether the request succeeded and why.
+- Express: a Node framework that simplifies routing, middleware, and HTTP response handling.
+- Middleware: a function that receives `req`, `res`, and `next`, and runs during the request pipeline.
+- Controller: the layer that holds request handling logic after routing is decided.
+- Centralized error handling: one error middleware formats failures for the whole API.
+- Input validation middleware: code that checks request data before business logic runs.
+- Separation of concerns: keeping routing, validation, logic, and response formatting in separate places.
 
 ## Likely Interview Questions
 
-1. What is an HTTP request?
-   It is a message from a client containing a method, URL, headers, and sometimes a body.
-2. What is an HTTP response?
-   It is the server's reply containing a status code, headers, and usually a body.
-3. Why does POST return 201 for creation?
-   201 means a new resource was created successfully.
-4. Why do we set `Content-Type: application/json`?
-   It tells the client that the response body is JSON.
-5. What work does Express do for us?
-   Express gives cleaner routing, middleware, body parsing, and error handling patterns.
-6. Why does request body parsing use events in raw Node?
-   The body can arrive in chunks, so Node emits `data` events until the `end` event fires.
+1. What is middleware and what does `next()` do?
+   Middleware runs during the request pipeline; `next()` passes control to the next middleware or route handler.
+2. What happens if middleware forgets to call `next()`?
+   The request can hang because Express does not know to continue.
+3. Why keep routes thin?
+   Routes should describe the HTTP mapping, while controllers hold the request logic.
+4. Why use centralized error handling?
+   It gives consistent error responses and avoids repeating try/catch response code in every route.
+5. What status code should bad input return?
+   400 Bad Request because the client sent invalid data.
+6. PUT vs PATCH?
+   PUT usually replaces a resource or full update payload; PATCH applies a partial update.
+7. What does idempotent mean?
+   Repeating the same request produces the same final server state; GET, PUT, and DELETE are idempotent by design.
 
 ## Gotcha Traps
 
-- "GET requests should send bodies" is a bad habit. Use query parameters or path parameters for read filters.
-- "All errors are 500" is wrong. Bad input is 400; missing routes are 404.
-- "JSON.parse is always safe" is wrong. Invalid JSON throws and must be handled.
+- "Middleware is only for authentication" is too narrow. Logging, parsing, validation, and errors are middleware too.
+- "Validation belongs inside the database model only" misses API concerns. Validate request shape before controller logic.
+- "DELETE must return JSON" is not required. 204 with no body is a valid successful delete response.
 
 ## Whiteboard Question
 
-Trace a POST `/api/tasks` request from the client sending JSON to the server returning 201.
+Trace a POST `/api/tasks` request through Express JSON parsing, logger, validation, route, controller, and response.

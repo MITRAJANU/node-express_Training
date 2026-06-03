@@ -4,7 +4,7 @@ This repository is a 2-day backend masterclass project for 4th-year B.Tech stude
 
 ## What this checkpoint adds
 
-This checkpoint adds a basic JSON API using Node's built-in `http` module. Students see manual routing, request body parsing, and JSON responses before Express simplifies those jobs.
+This checkpoint adds the main Express app with in-memory Task CRUD. It introduces separation of concerns, middleware, input validation, and centralized error handling.
 
 ## Prerequisites
 
@@ -38,25 +38,34 @@ node examples/js-refresher/02-promises.js
 node examples/js-refresher/03-async-await.js
 node examples/js-refresher/04-fetch-try-catch.js
 node examples/node-http-server/server.js
+npm start
 ```
 
 ## What to test
 
 ```bash
-curl http://localhost:3001/health
-curl http://localhost:3001/api/tasks
-curl -X POST http://localhost:3001/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice HTTP\"}"
+curl http://localhost:3000/health
+curl http://localhost:3000/api/tasks
+curl -X POST http://localhost:3000/api/tasks -H "Content-Type: application/json" -d "{\"title\":\"Practice Express\",\"description\":\"Build CRUD routes\"}"
+curl -X PUT http://localhost:3000/api/tasks/1 -H "Content-Type: application/json" -d "{\"title\":\"Updated task\",\"status\":\"done\"}"
+curl -X DELETE http://localhost:3000/api/tasks/1
 ```
 
 ## Student Exercise
 
-No coding exercise in this branch. Ask students to trace how the server reaches each `if` block.
+Task: after the instructor demos GET and POST, students implement PUT and DELETE.
+
+Time-box: 25 minutes.
+
+Done when PUT returns 200 with updated task data, DELETE returns 204, and a follow-up GET for that id returns 404.
+
+Solution note: the working solution is already present in this branch so the instructor can demo the end state.
 
 ## Interview angle
 
-Read `INTERVIEW.md` and focus on: what does Express save us from writing manually?
+Read `INTERVIEW.md` and focus on: what is middleware and what does `next()` do?
 
-Behind? Run `git checkout checkpoint-02-node-http` to sync.
+Behind? Run `git checkout checkpoint-03-express-crud` to sync.
 
 ## Branch Map
 
