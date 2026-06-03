@@ -6,9 +6,9 @@
 |---|---|---|
 | GET | Read data | Yes |
 | POST | Create data | No |
-| PUT | Replace/update a resource | Yes |
+| PUT | Replace a resource | Yes |
 | DELETE | Remove a resource | Yes |
-
+| PATCH | Update a resource | Yes|
 ## Status Codes
 
 | Code | Meaning | Use when |
