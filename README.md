@@ -89,3 +89,7 @@ Behind? Run `git checkout checkpoint-06-secured` to sync.
 ## Postman / Thunder Client
 
 Import `postman.json` for the final secured API demo. Every checkpoint README also includes copy-pasteable request examples that can be used in Postman, Thunder Client, or curl.
+
+## Mongo Setup using Docker
+
+docker run --name local-mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest
