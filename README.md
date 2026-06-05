@@ -93,3 +93,8 @@ Import `postman.json` for the final secured API demo. Every checkpoint README al
 ## Mongo Setup using Docker
 
 docker run --name local-mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest
+
+
+## Deploying React APP into AWS on cloudfront and S3.
+
+[https://dev.to/itanand_/how-to-deploy-a-react-application-using-aws-s3-and-cloudfront-58kj]
